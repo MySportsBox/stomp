@@ -1,7 +1,7 @@
 package topic
 
 import (
-	"github.com/go-stomp/stomp/frame"
+	"github.com/mysportsbox/stomp/frame"
 	. "gopkg.in/check.v1"
 )
 

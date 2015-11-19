@@ -1,7 +1,7 @@
 package stomp
 
 import (
-	"github.com/go-stomp/stomp/frame"
+	"github.com/mysportsbox/stomp/frame"
 )
 
 // SendOpt contains options for for the Conn.Send and Transaction.Send functions.

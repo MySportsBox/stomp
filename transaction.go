@@ -1,7 +1,7 @@
 package stomp
 
 import (
-	"github.com/go-stomp/stomp/frame"
+	"github.com/mysportsbox/stomp/frame"
 )
 
 // A Transaction applies to the sending of messages to the STOMP server,
