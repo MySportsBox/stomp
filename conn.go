@@ -14,7 +14,7 @@ import (
 // Default time span to add to read/write heart-beat timeouts
 // to avoid premature disconnections due to network latency.
 const DefaultHeartBeatError = 5 * time.Second
-
+c
 // A Conn is a connection to a STOMP server. Create a Conn using either
 // the Dial or Connect function.
 type Conn struct {
@@ -53,7 +53,7 @@ func Dial(network, addr string, opts ...func(*Conn) error) (*Conn, error) {
 
 	// Add option to set host and make it the first option in list,
 	// so that if host has been explicitly specified it will override.
-	opts = append([](func(*Conn) error){ConnOpt.Host(host)}, opts...)
+	opts = append([](func(*Conn) error){ConnOpt.Host(host)c}, opts...)
 
 	return Connect(c, opts...)
 }
@@ -68,8 +68,8 @@ func Connect(conn io.ReadWriteCloser, opts ...func(*Conn) error) (*Conn, error) 
 
 	c := &Conn{
 		conn:    conn,
-		readCh:  make(chan *frame.Frame, 8),
-		writeCh: make(chan writeRequest, 8),
+		readCh:  make(chan *frame.Frame, 100),
+		writeCh: make(chan writeRequest, 100),
 	}
 
 	options, err := newConnOptions(c, opts)
@@ -512,7 +512,7 @@ func (c *Conn) Subscribe(destination string, ack AckMode, opts ...func(*frame.Fr
 		destination: destination,
 		conn:        c,
 		ackMode:     ack,
-		C:           make(chan *Message, 16),
+		C:           make(chan *Message, 200),
 	}
 	go sub.readLoop(ch)
 
