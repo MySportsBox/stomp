@@ -406,7 +406,7 @@ func (c *Conn) Send(destination, contentType string, body []byte, opts ...func(*
 		// receipt required
 		request := writeRequest{
 			Frame: f,
-			C:     make(chan *frame.Frame),
+			C:     make(chan *frame.Frame, 100),
 		}
 
 		c.writeCh <- request
@@ -452,7 +452,7 @@ func (c *Conn) sendFrame(f *frame.Frame) error {
 		// receipt required
 		request := writeRequest{
 			Frame: f,
-			C:     make(chan *frame.Frame),
+			C:     make(chan *frame.Frame, 100),
 		}
 
 		c.writeCh <- request
@@ -478,7 +478,7 @@ func (c *Conn) sendFrame(f *frame.Frame) error {
 // will be received by this subscription. A subscription has a channel
 // on which the calling program can receive messages.
 func (c *Conn) Subscribe(destination string, ack AckMode, opts ...func(*frame.Frame) error) (*Subscription, error) {
-	ch := make(chan *frame.Frame)
+	ch := make(chan *frame.Frame, 100)
 
 	subscribeFrame := frame.New(frame.SUBSCRIBE,
 		frame.Destination, destination,
