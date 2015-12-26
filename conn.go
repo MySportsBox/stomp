@@ -191,7 +191,7 @@ func (c *Conn) Server() string {
 // reader and places them onto a channel for processing
 // by the processLoop goroutine
 func readLoop(c *Conn, reader *frame.Reader) {
-	for {
+	for !c.closed {
 		f, err := reader.Read()
 		if err != nil {
 			close(c.readCh)
@@ -199,6 +199,7 @@ func readLoop(c *Conn, reader *frame.Reader) {
 		}
 		c.readCh <- f
 	}
+	close(c.readCh)
 }
 
 // processLoop is a goroutine that handles io with
